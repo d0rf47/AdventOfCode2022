@@ -27,12 +27,13 @@ they'd like to know how many Calories are being carried by the Elf carrying the 
 
 Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
 */
-
+using System;
+using System.IO;
 namespace AdventOfCode_d0rf47
 {
     class MaxCalories
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             //hold current max val
             int currMax = 0; 
@@ -40,6 +41,35 @@ namespace AdventOfCode_d0rf47
             // iterate over records --> first value = max
             // if next val > currMax currMax = next Val
             // console.writeline(maxValue)
+            string filePath = "./input-calories.txt";
+            if(!File.Exists(filePath))
+            {
+                Console.WriteLine("No File Found!");
+                return 0;
+            }else
+            {
+                using (StreamReader reader = File.OpenText(filePath))
+                {
+                    var lines = File.ReadLines(filePath);
+                    int tempSum = 0;
+                    int i = 0;
+                    foreach (var line in lines)
+                    {
+                        i++;
+                        if(line.Length != 0 )
+                        {
+                            tempSum += Int32.Parse(line);                            
+                        }else
+                        {
+                            if(tempSum > currMax)
+                                currMax = tempSum;
+                            tempSum = 0;
+                        }
+                    }Console.WriteLine(currMax);
+                    return 0;
+                }
+            }
+            
             
         }
     }
