@@ -24,7 +24,7 @@ namespace AdventOfCode_d0rf47
         
         static int Main(string[] args)
         {
-            int[] MaxTopThree = {0,0,0};
+            int[] MaxTopThree = {0,0,0};            
             string filePath = "./input-calories.txt";
             if(!File.Exists(filePath))
             {
@@ -33,34 +33,41 @@ namespace AdventOfCode_d0rf47
             }else
             {
                 using (StreamReader reader = File.OpenText(filePath))
-                {
+                {                    
                     var lines = File.ReadLines(filePath);
                     int tempSum = 0;                    
-                    foreach (var line in lines)
+                    foreach (var line in lines)                        
                     {                        
                         if(line.Length != 0 )
                         {
                             tempSum += Int32.Parse(line);                            
-                        }else
-                        {
-                            for( int i = 0; i < 3; i++)
-                            {
-                                if(tempSum > MaxTopThree[i]){
-                                    MaxTopThree[i] = tempSum;
-                                    break;
-                                }                                
-                            }
-                            tempSum = 0;                            
                         }
-                    }
+                        else
+                        {                            
+                            if (tempSum > MaxTopThree[0])
+                            {
+                                MaxTopThree[1] = MaxTopThree[0];
+                                MaxTopThree[0] = tempSum;
+                            }
+                            else if (tempSum > MaxTopThree[1])
+                            {
+                                MaxTopThree[2] = MaxTopThree[1];
+                                MaxTopThree[1] = tempSum;
+                            }
+                            else if (tempSum > MaxTopThree[2])
+                                MaxTopThree[2] = tempSum;
+
+                            tempSum = 0;                            
+                        }                        
+                    }                                        
                     foreach(int i in MaxTopThree)
                         Console.WriteLine(i);
+                        
                     int totalSum = MaxTopThree.Sum();
-                    Console.WriteLine(totalSum);                    
+                    Console.WriteLine($"Total: {totalSum}");   
                 }
                 return 0;
-            }
-            
+            }            
         }
     }
 }
