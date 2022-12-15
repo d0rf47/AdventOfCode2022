@@ -36,10 +36,25 @@ using System.Linq;
 
 namespace AdventOfCode_d0rf47
 {
-    class RockPapperScissors
+    /**
+    * Elfs:
+    * A = Rock = 1
+    * B = Paper = 2
+    * C = scissors = 3
+    *
+    * Me:
+    * X = Rock = 1
+    * Y = Paper = 2
+    * Z = Scissor = 3
+    * Win = 6
+    * Draw = 3
+    * Lose = 0
+    */
+    class RockPaperScissors
     {
         static void Main(string[] args)
         {
+            int finalScore = 0;
             string filePath = "./input-strategy.txt";
             if(!File.Exists(filePath))
             {
@@ -49,9 +64,47 @@ namespace AdventOfCode_d0rf47
 
             using (StreamReader reader =  File.OpenText(filePath))
             {
-                var lines = File.ReadAllLines(filePath);
+                var lines = File.ReadAllLines(filePath);     
+                foreach(var line in lines)
+                {
+                    int roundScore = 0;
+                    string[] moves = line.Split(' ');
+
+                    roundScore += IsWinner();
+                }
+
             }
 
+        }
+
+        // return 6, 3, 0 depending on win draw or lose
+        public static int IsWinner(string them, string me)
+        {
+            switch (them)
+            {
+                case 'A':
+                    if(me == 'Y')
+                        return 6;
+                    if(me == 'X')
+                        return 3;
+                    else
+                        return 0;                    
+                case 'B':
+                    if(me == 'Z')
+                        return 6;
+                    if(me == 'Y')
+                        return 3;
+                    else
+                        return 0;
+                case 'C':
+                    if(me == 'Z')
+                        return 6;
+                    if(me == 'X')
+                        return 3;
+                    else
+                        return 0;
+            }
+            return 0;
         }
     }
 }
