@@ -15,9 +15,9 @@ Since you can't be sure if the Elf is trying to help you or trick you, you shoul
 
 For example, suppose you were given the following strategy guide:
 
-A Y
-B X
-C Z
+A Y == win
+B X == win
+C Z == draw
 
 This strategy guide predicts and recommends the following:
 
@@ -56,6 +56,12 @@ namespace AdventOfCode_d0rf47
         {
             int finalScore = 0;
             string filePath = "./input-strategy.txt";
+            IDictionary<string, int> MoveValues = new Dictionary<string, int>()
+            {
+                {"X", 1},
+                {"Y", 2},
+                {"Z", 3}
+            };
             if(!File.Exists(filePath))
             {
                 Console.WriteLine("No File Found!");
@@ -70,36 +76,41 @@ namespace AdventOfCode_d0rf47
                     int roundScore = 0;
                     string[] moves = line.Split(' ');
 
-                    roundScore += IsWinner();
+                    roundScore += GetScore(moves[0], moves[1]);
+                    roundScore += MoveValues[moves[1]];
+                    finalScore += roundScore;                    
                 }
 
             }
-
+            Console.WriteLine($" Final Score: {finalScore}");
         }
 
         // return 6, 3, 0 depending on win draw or lose
-        public static int IsWinner(string them, string me)
+        public static int GetScore(string them, string me)
         {
             switch (them)
             {
-                case 'A':
-                    if(me == 'Y')
+                //rock
+                case "A": 
+                    if(me == "Y")
                         return 6;
-                    if(me == 'X')
+                    if(me == "X")
                         return 3;
                     else
                         return 0;                    
-                case 'B':
-                    if(me == 'Z')
+                //paper
+                case "B":
+                    if(me == "Z")
                         return 6;
-                    if(me == 'Y')
+                    if(me == "Y")
                         return 3;
                     else
                         return 0;
-                case 'C':
-                    if(me == 'Z')
+                //scissors
+                case "C":
+                    if(me == "X")
                         return 6;
-                    if(me == 'X')
+                    if(me == "Z")
                         return 3;
                     else
                         return 0;
